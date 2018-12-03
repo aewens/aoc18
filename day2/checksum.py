@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from functools import reduce
-from sys import exit
 
 repeats = list()
 box_ids = list()
