@@ -17,9 +17,12 @@ with open("input", "r") as puzzle:
 
 fwidth, fheight = 1000, 1000
 overlaps = 0
+overlap_ids = dict()
+all_ids = list()
 cache = dict()
 for claim in claims:
     claim_id, offx, offy, width, height = claim
+    all_ids.append(claim_id)
     for y in range(height):
         row = offy + y
         frow = fabric.get(row, None)
@@ -32,20 +35,14 @@ for claim in claims:
                 fabric[row][col] = list()
             index = row * fwidth + col
             fabric[row][col].append(claim_id)
-            if len(fabric[row][col]) > 1 and cache.get(index, None) is None:
-                cache[index] = True
-                overlaps = overlaps + 1
-                
+            if len(fabric[row][col]) > 1:
+                if cache.get(index, None) is None:
+                    cache[index] = True
+                    overlaps = overlaps + 1
+                for fid in fabric[row][col]:
+                    overlap_ids[fid] = True
+
 print("Part 1: ", overlaps)
-
-
-"""
-0 1 2 3
-4 5 6 7
-8 9 A B
-C D E F
-
-_ = (x,y,a,b,w,h,W,H)
-9 = (1,2,0,0,4,4,4,4) = y * W + x
-A = (1,1,1,1,2,2,4,4) = (y + b) * W + (x + a)
-"""
+for cid in all_ids:
+    if overlap_ids.get(cid, None) is None:
+        print("Part 2: ", cid)
