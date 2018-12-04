@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from functools import reduce
-
 def extract(line):
     group1 = line.strip().split("#", 1)[1].split(" @ ")
     claim_id = group1[0]
