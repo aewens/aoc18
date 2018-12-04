@@ -53,4 +53,20 @@ for minute in sleeps[most_slept]:
     max_minute_repeat = max(max_minute_repeat, repeats[minute])
     if max_minute_repeat == repeats[minute]:
         max_minute = minute
+
+min_repeats = dict()
+sleeper, most_slept_minute, minute_freq = None, 0, 0
+for guard_id, minutes_slept in sleeps.items():
+    for minute in minutes_slept:
+        if min_repeats.get(minute, None) is None:
+            min_repeats[minute] = dict()
+        if min_repeats[minute].get(guard_id, None) is None:
+            min_repeats[minute][guard_id] = 0
+        min_repeats[minute][guard_id] = min_repeats[minute][guard_id] + 1
+        minute_freq = max(minute_freq, min_repeats[minute][guard_id])
+        if minute_freq == min_repeats[minute][guard_id]:
+            sleeper = guard_id
+            most_slept_minute = minute
+
 print("Part 1: ", int(most_slept) * max_minute)
+print("Part 2: ", int(sleeper) * most_slept_minute)
